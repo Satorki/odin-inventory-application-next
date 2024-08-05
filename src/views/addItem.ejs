@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./partials/_head' ) %>
+  <body>
+    <%- include ('./partials/_nav') %>
+    <div class="container mt-2">
+      <header>
+        <h2><%= title %></h2>
+        <p><%= description %></p>
+      </header>
+      <section>
+        <form action="/add-item" method="post">
+          <label for="name">Name:</label>
+          <input class="mb-2 form-control" type="text" name="name" id="name" />
+          <label for="company">Company:</label>
+          <input
+            class="mb-2 form-control"
+            type="text"
+            company="company"
+            id="company"
+          />
+          <label for="category">Category:</label>
+          <input
+            class="mb-2 form-control"
+            type="text"
+            category="category"
+            id="category"
+          />
+          <label for="price">Price:</label>
+          <input
+            class="mb-2 form-control"
+            type="number"
+            price="price"
+            id="price"
+          />
+          <button class="mt-2 btn btn-primary" type="submit">Add</button>
+        </form>
+      </section>
+      <footer></footer>
+    </div>
+  </body>
+</html>
