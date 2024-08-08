@@ -1,20 +1,5 @@
 CREATE DATABASE carshop;
 
-CREATE TABLE car(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    company INTEGER NOT NULL,
-    category INTEGER NOT NULL,
-    price DECIMAL(10, 2) NOT NULL
-);
-
-CREATE TABLE category(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-);
-
 SELECT * FROM car;
 
 INSERT INTO company (name, description) VALUES ('Ford', 'Ford Motor Company (commonly known as Ford) is an American multinational automobile manufacturer headquartered in Dearborn, Michigan, United States.');
