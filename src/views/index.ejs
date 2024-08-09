@@ -9,11 +9,30 @@
         <p><%= description %></p>
       </header>
       <section>
-        <ul>
-          <% itemList.forEach(element => { %>
-          <li><%= element.name %></li>
-          <% }); %>
-        </ul>
+        <table border="1" cellpadding="10" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Company</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Compose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% itemList.forEach(element => { %>
+            <tr>
+              <td><%= element.name %></td>
+              <td><%= element.description %></td>
+              <td><%= element.company_id %></td>
+              <td><%= element.category_id %></td>
+              <td><%= element.price %>$</td>
+              <td><a href="/:element.id">edit</a></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
       </section>
       <footer></footer>
     </div>

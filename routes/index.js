@@ -28,10 +28,9 @@ router.post(
 // SHOW ITEMS GET
 router.get(
   "/",
-  asyncHandler((req, res) => {
-    const result = pool.query("SELECT * FROM car");
+  asyncHandler(async (req, res) => {
+    const result = await pool.query("SELECT * FROM car");
     const itemList = result.rows;
-
     res.render("index", {
       title: "Odin Inventory App Next",
       description: "List of the cars:",
