@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <%- include('./partials/_head' ) %>
+  <%- include('./partials/_head') %>
   <body>
     <%- include ('./partials/_nav') %>
     <div class="container mt-2">
@@ -12,27 +12,37 @@
         <form action="/add-item" method="post">
           <label for="name">Name:</label>
           <input class="mb-2 form-control" type="text" name="name" id="name" />
+
+          <label for="description">Description:</label>
+          <input
+            class="mb-2 form-control"
+            type="text"
+            name="description"
+            id="description"
+          />
+
           <label for="company">Company:</label>
-          <input
-            class="mb-2 form-control"
-            type="text"
-            company="company"
-            id="company"
-          />
+          <select name="company_id" id="company">
+            <option value="1">Ford</option>
+            <option value="2">Lexus</option>
+          </select>
+          <br />
+
           <label for="category">Category:</label>
-          <input
-            class="mb-2 form-control"
-            type="text"
-            category="category"
-            id="category"
-          />
+          <select name="category_id" id="category_id">
+            <option value="2">Hatchback</option>
+            <option value="1">Sedan</option>
+          </select>
+          <br />
+
           <label for="price">Price:</label>
           <input
             class="mb-2 form-control"
             type="number"
-            price="price"
+            name="price"
             id="price"
           />
+
           <button class="mt-2 btn btn-primary" type="submit">Add</button>
         </form>
       </section>

@@ -13,14 +13,12 @@ router.get("/add-item", (req, res) => {
 
 router.post(
   "/add-item",
-  asyncHandler((req, res) => {
+  asyncHandler(async (req, res) => {
     const { name, description, company_id, category_id, price } = req.body;
-    const newItem = pool.query(
-      "INSERT INTO car (name, company_id, category_id, price) VALUES ($1, $2, $3, $4, $5)RETURNING *",
+    const newItem = await pool.query(
+      "INSERT INTO car (name, description, company_id, category_id, price) VALUES ($1, $2, $3, $4, $5) RETURNING *",
       [name, description, company_id, category_id, price]
     );
-    res.json(newItem.rows[0]);
-    res.status(200).send("Car added");
     res.redirect("/");
   })
 );
@@ -43,14 +41,30 @@ router.get(
 );
 
 // SHOW ONE ITEM DETAIL GET
-// router.get("/:id", (req, res) => {
-//   const itemId = "id";
+router.get(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
 
-//   res.render("item", {
-//     title: "item",
-//     itemData: itemId,
-//   });
-// });
+    // Sprawdź, czy `id` jest liczbą całkowitą
+    if (isNaN(id)) {
+      // Jeśli `id` nie jest liczbą, zwróć błąd 400
+      return res.status(400).send("Invalid ID");
+    }
+
+    const result = await pool.query(
+      "SELECT car.id, car.name AS car_name, car.description AS car_description, car.company_id, car.category_id, car.price, category.name AS category_name, company.name AS company_name FROM car INNER JOIN category ON car.category_id = category.id INNER JOIN company on car.company_id = company.id WHERE car.id = $1;",
+      [id]
+    );
+
+    const itemData = result.rows[0];
+
+    res.render("item", {
+      title: "item Detail",
+      itemData: itemData,
+    });
+  })
+);
 
 // UPDATE ITEM POST
 // router.post("/:id", (req, res) => {
