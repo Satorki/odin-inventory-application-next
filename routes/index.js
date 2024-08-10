@@ -29,7 +29,10 @@ router.post(
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const result = await pool.query("SELECT * FROM car");
+    const result = await pool.query(
+      "SELECT car.id, car.name AS car_name, car.description AS car_description, car.company_id, car.category_id, car.price, category.name AS category_name, company.name AS company_name FROM car INNER JOIN category ON car.category_id = category.id INNER JOIN company on car.company_id = company.id;"
+    );
+
     const itemList = result.rows;
     res.render("index", {
       title: "Odin Inventory App Next",

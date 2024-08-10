@@ -23,10 +23,11 @@
           <tbody>
             <% itemList.forEach(element => { %>
             <tr>
-              <td><%= element.name %></td>
-              <td><%= element.description %></td>
-              <td><%= element.company_id %></td>
-              <td><%= element.category_id %></td>
+              <td><%= element.car_name %></td>
+              <td><%= element.car_description %></td>
+              <td><%= element.company_name %></td>
+              <td><%= element.category_name %></td>
+              <td><%= element.price %>$</td>
               <td><%= element.price %>$</td>
               <td><a href="/:element.id">edit</a></td>
             </tr>
