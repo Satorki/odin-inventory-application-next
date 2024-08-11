@@ -80,29 +80,35 @@ router.post(
   })
 );
 
-// router.post(
-//   "/add-item",
-//   asyncHandler((req, res) => {
-//     console.log(req.body);
-//     res.status(200).send("Car added");
-//     res.redirect("/");
-//   })
-// );
-
-// DELETE ITEM POST
-// router.post("/:id", (req, res) => {
-//   res.render("addItem", {
-//     title: "Add Item",
-//     description: "Please Add a car",
-//   });
-// });
-// router.post(
-//   "/add-item",
-//   asyncHandler((req, res) => {
-//     console.log(req.body);
-//     res.status(200).send("Car added");
-//     res.redirect("/");
-//   })
-// );
+// DELETE ITEM GET
+router.get(
+  "/:id/delete",
+  asyncHandler(async (req, res) => {
+    const carId = req.params.id;
+    const deleteItem = await pool.query("DELETE FROM car WHERE id = $1", [
+      carId,
+    ]);
+    res.redirect("/");
+  })
+);
 
 module.exports = router;
+
+// SEARCH ITEM GET
+router.get(
+  "/search",
+  asyncHandler(async (req, res) => {
+    const { search } = req.query;
+
+    const searchResults = await pool.query(
+      "SELECT car.id AS car_id, car.name AS car_name, car.description AS car_description, car.company_id, car.category_id, car.price, category.name AS category_name, company.name AS company_name FROM car INNER JOIN category ON car.category_id = category.id INNER JOIN company on car.company_id = company.id WHERE car.name ILIKE $1 OR car.description ILIKE $2;",
+      [`%${search}%`, `%${search}%`]
+    );
+
+    res.render("search", {
+      title: "Odin Inventory App Next",
+      description: "List of the cars:",
+      itemList: searchResults.rows,
+    });
+  })
+);
