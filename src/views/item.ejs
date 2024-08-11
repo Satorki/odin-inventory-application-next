@@ -5,11 +5,99 @@
     <%- include ('./partials/_nav') %>
     <div class="container mt-2">
       <header>
-        <h2><%= title %></h2>
-        <p><%= itemData %></p>
+        <h5><%= title %></h5>
       </header>
-      <section></section>
+
+      <section id="car-details">
+        <h2><%= itemData.car_name %></h2>
+        <table border="1" cellpadding="10" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Category</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= itemData.company_name %></td>
+              <td><%= itemData.category_name %></td>
+              <td><%= itemData.price %>$</td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <p><%= itemData.car_description %></p>
+      </section>
+
+      <button id="change">Change</button>
+
+      <form
+        id="edit-form"
+        action="/<%= itemData.car_id %>"
+        method="post"
+        style="display: none"
+      >
+        <label for="name">Name:</label>
+        <input
+          class="mb-2 form-control"
+          type="text"
+          name="name"
+          id="name"
+          value="<%= itemData.car_name %>"
+        />
+
+        <label for="description">Description:</label>
+        <input
+          class="mb-2 form-control"
+          type="text"
+          name="description"
+          id="description"
+          value="<%= itemData.car_description %>"
+        />
+
+        <label for="company">Company:</label>
+        <select name="company_id" id="company">
+          <option value="1">Ford</option>
+          <option value="2">Lexus</option>
+        </select>
+        <br />
+
+        <label for="category">Category:</label>
+        <select name="category_id" id="category_id">
+          <option value="2">Hatchback</option>
+          <option value="1">Sedan</option>
+        </select>
+        <br />
+
+        <label for="price">Price:</label>
+        <input
+          class="mb-2 form-control"
+          type="number"
+          name="price"
+          id="price"
+          value="<%= itemData.price %>"
+        />
+
+        <button class="mt-2 btn btn-primary" type="submit">Add Changes</button>
+      </form>
+
       <footer></footer>
     </div>
+
+    <script>
+      document.getElementById("change").addEventListener("click", function () {
+        var carDetails = document.getElementById("car-details");
+        var editForm = document.getElementById("edit-form");
+
+        if (carDetails.style.display === "none") {
+          carDetails.style.display = "block";
+          editForm.style.display = "none";
+        } else {
+          carDetails.style.display = "none";
+          editForm.style.display = "block";
+        }
+      });
+    </script>
   </body>
 </html>

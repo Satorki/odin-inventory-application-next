@@ -28,7 +28,7 @@ router.get(
   "/",
   asyncHandler(async (req, res) => {
     const result = await pool.query(
-      "SELECT car.id, car.name AS car_name, car.description AS car_description, car.company_id, car.category_id, car.price, category.name AS category_name, company.name AS company_name FROM car INNER JOIN category ON car.category_id = category.id INNER JOIN company on car.company_id = company.id;"
+      "SELECT car.id AS car_id, car.name AS car_name, car.description AS car_description, car.company_id, car.category_id, car.price, category.name AS category_name, company.name AS company_name FROM car INNER JOIN category ON car.category_id = category.id INNER JOIN company on car.company_id = company.id;"
     );
 
     const itemList = result.rows;
@@ -53,7 +53,7 @@ router.get(
     }
 
     const result = await pool.query(
-      "SELECT car.id, car.name AS car_name, car.description AS car_description, car.company_id, car.category_id, car.price, category.name AS category_name, company.name AS company_name FROM car INNER JOIN category ON car.category_id = category.id INNER JOIN company on car.company_id = company.id WHERE car.id = $1;",
+      "SELECT car.id AS car_id, car.name AS car_name, car.description AS car_description, car.company_id, car.category_id, car.price, category.name AS category_name, company.name AS company_name FROM car INNER JOIN category ON car.category_id = category.id INNER JOIN company on car.company_id = company.id WHERE car.id = $1;",
       [id]
     );
 
@@ -67,12 +67,19 @@ router.get(
 );
 
 // UPDATE ITEM POST
-// router.post("/:id", (req, res) => {
-//   res.render("addItem", {
-//     title: "Add Item",
-//     description: "Please Add a car",
-//   });
-// });
+router.post(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const carId = req.params.id;
+    const { name, description, company_id, category_id, price } = req.body;
+    const updateItem = await pool.query(
+      "UPDATE car SET name = $1, description = $2, company_id = $3, category_id = $4, price = $5 WHERE id = $6",
+      [name, description, company_id, category_id, price, carId]
+    );
+    res.redirect(`/${carId}`);
+  })
+);
+
 // router.post(
 //   "/add-item",
 //   asyncHandler((req, res) => {

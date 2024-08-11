@@ -28,8 +28,7 @@
               <td><%= element.company_name %></td>
               <td><%= element.category_name %></td>
               <td><%= element.price %>$</td>
-              <td><%= element.price %>$</td>
-              <td><a href="/:element.id">edit</a></td>
+              <td><a href="/<%= element.car_id %>">edit</a></td>
             </tr>
             <% }); %>
           </tbody>
