@@ -2,6 +2,17 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const pool = require("../db");
+require("dotenv").config();
+
+function checkAdmin(req, res, next) {
+  const adminCode = req.body.adminCode;
+
+  if (adminCode === process.env.ADMINCODE) {
+    next();
+  } else {
+    res.status(403).send("Unauthorized access - Invalid Admin Code");
+  }
+}
 
 // ADD ITEM POST
 router.get("/add-item", (req, res) => {
@@ -13,6 +24,7 @@ router.get("/add-item", (req, res) => {
 
 router.post(
   "/add-item",
+  checkAdmin,
   asyncHandler(async (req, res) => {
     const { name, description, company_id, category_id, price } = req.body;
     const newItem = await pool.query(
@@ -93,22 +105,3 @@ router.get(
 );
 
 module.exports = router;
-
-// SEARCH ITEM GET
-router.get(
-  "/search",
-  asyncHandler(async (req, res) => {
-    const { search } = req.query;
-
-    const searchResults = await pool.query(
-      "SELECT car.id AS car_id, car.name AS car_name, car.description AS car_description, car.company_id, car.category_id, car.price, category.name AS category_name, company.name AS company_name FROM car INNER JOIN category ON car.category_id = category.id INNER JOIN company on car.company_id = company.id WHERE car.name ILIKE $1 OR car.description ILIKE $2;",
-      [`%${search}%`, `%${search}%`]
-    );
-
-    res.render("search", {
-      title: "Odin Inventory App Next",
-      description: "List of the cars:",
-      itemList: searchResults.rows,
-    });
-  })
-);
